@@ -43,7 +43,14 @@ const {
 // allí la recursión
 
 var objContains = function(obj, prop, value){
- 
+  for (i in obj){
+    if (i === prop && obj[i] === value) {
+      devolver = true;
+      break;
+    }else devolver = false;
+        if(typeof obj[i] === `object`) objContains(obj[i], prop, value);
+  }
+  return devolver;
 }
 
 
@@ -58,7 +65,18 @@ var objContains = function(obj, prop, value){
 // [Para más información del método: https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/isArray]
 
 var countArray = function(array){
-  
+  if(array.length === 0){
+    return 0;
+  }
+  else{
+    alargado = a => a.reduce((p,c) => p.concat(Array.isArray(c) ? alargado(c) : c),[]);
+    result = alargado(array);
+    countArray =0;
+    for (let i = 0; i < result.length; i++) {
+      countArray += result[i];
+    }
+    return countArray;
+  }
 }
 
 // ---------------------
@@ -78,7 +96,14 @@ var countArray = function(array){
 //    lista.size(); --> 3
 
 LinkedList.prototype.size = function(){
- 
+  
+  var largo = 0;
+  var nodo = this.head;
+  while (nodo != null) {
+    largo++;
+    nodo = nodo.next;
+  }
+  return largo;
 }
 
 
@@ -99,7 +124,28 @@ LinkedList.prototype.size = function(){
 //    sin antes tener cargada la posición 0 y 1.
 
 LinkedList.prototype.addInPos = function(pos, value){
-  
+  if(pos > 0 && pos> this.size()){
+     return false;
+  }else{
+  var nodo = new Node(value);
+    // cuando la lista esta vacia
+    if(this.head === 0){
+        nodo.next = this.head;
+        this.head = node
+    } else {
+      // cuando la lista ya tiene elementos
+      current = this.head;
+      var itero=0;
+      while(itero < pos) {
+        itero++;
+        previo = current;
+        current = current.next;
+      }
+      nodo.next = current;
+      previo.next=nodo;
+    }
+  }
+  return true;
 }
 
 // EJERCICIO 5
@@ -110,7 +156,16 @@ LinkedList.prototype.addInPos = function(pos, value){
 //    Lista nueva luego de aplicar el reverse: Head --> 13 --> 10 --> 4 --> 1 --> null
 
 LinkedList.prototype.reverse = function(){
- 
+  var link = this;
+  var nuevaLista = new LinkedList();
+    var nodoActual = this.head.next;
+    var nodoPrevio = this.head;
+    while(link.size() > 0 ){
+      if(nodoActual.next === null) nuevaLista.add(link.remove());
+      nodoPrevio = nodoActual;
+      if(nodoActual.next) nodoActual = nodoActual.next;
+    }
+    return nuevaLista;
 }
 
 
@@ -141,7 +196,7 @@ LinkedList.prototype.reverse = function(){
 //    - mazoUserB = [6,9,10,3,6,4]
 
 var cardGame = function(mazoUserA, mazoUserB){
-
+  // this.cardGame
 }
 
 // ---------------
@@ -164,7 +219,10 @@ var cardGame = function(mazoUserA, mazoUserB){
 //       5
 
 var generateBST = function(array){
- 
+  var nuevoArbol = new BinarySearchTree(array[0]);
+  array.shift();
+  array.forEach(element => nuevoArbol.insert(element));
+  return nuevoArbol;
 }
 
 
@@ -186,7 +244,22 @@ var generateBST = function(array){
 
 var binarySearch = function (array, target) {
 
+function swap(array,j,i){}
+  var inicio = 0
+  var final = array.length - 1;
+  var posicion = -1;
+  var tomado = false;
+  var medio;
   
+  while(tomado === false && inicio <= final){
+    medio = Math.floor((inicio+final)/2)
+    if(array[medio] === target){
+      tomado = true;
+      posicion = medio;
+    }else if(array[medio] > target) final -1;
+    else inicio = medio+1;
+  }
+  return posicion;
 }
 
 // EJERCICIO 9
@@ -197,9 +270,22 @@ var binarySearch = function (array, target) {
 // Ejemplo:
 //     selectionSort([1, 6, 2, 5, 3, 4]) --> [1, 2, 3, 4, 5, 6]
 
+function swap(array,j,i){
+  if(j === i) return array;
+  var aux = array[j];
+  array[j] = array[i];
+  return array;
+}
 
 var selectionSort = function(array) {
-  
+  for (let i = 0; i < array.length - 1; i++) {
+    var menor = i;
+    for(var j = i +1 ; i < array.length; i++);{
+      if( array[j] < array[menor]) menor =j;
+    }
+    swap(array,menor,i);
+  }
+  return array;
 }
 
 // ----- Closures -----
@@ -216,7 +302,11 @@ var selectionSort = function(array) {
 //    sumaDiez(2);  --> Devolverá 12 (Ya que 2 + 10 = 12)
 //    sumaDiez(11); --> Devolverá 21 (Ya que 11 + 10 = 21)
 
+
 function closureSum(numFijo) {
+  return function(num){
+    return numFijo + num;
+  }
  
 }
 
