@@ -156,7 +156,7 @@ LinkedList.prototype.addInPos = function(pos, value){
 //    Lista nueva luego de aplicar el reverse: Head --> 13 --> 10 --> 4 --> 1 --> null
 
 LinkedList.prototype.reverse = function(){
-  var link = this;
+  var nodo = this.head
   var nuevaLista = new LinkedList();
     var nodoActual = this.head.next;
     var nodoPrevio = this.head;
@@ -244,19 +244,19 @@ var generateBST = function(array){
 
 var binarySearch = function (array, target) {
 
-function swap(array,j,i){}
+function swap(array,j,i){
   var inicio = 0
-  var final = array.length - 1;
+  var final = array.length;
   var posicion = -1;
   var tomado = false;
   var medio;
-  
+}
   while(tomado === false && inicio <= final){
     medio = Math.floor((inicio+final)/2)
     if(array[medio] === target){
       tomado = true;
       posicion = medio;
-    }else if(array[medio] > target) final -1;
+    }else if(array[medio] > target) final = medio-1;
     else inicio = medio+1;
   }
   return posicion;
