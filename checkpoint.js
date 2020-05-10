@@ -156,16 +156,24 @@ LinkedList.prototype.addInPos = function(pos, value){
 //    Lista nueva luego de aplicar el reverse: Head --> 13 --> 10 --> 4 --> 1 --> null
 
 LinkedList.prototype.reverse = function(){
-  var nodo = this.head
-  var nuevaLista = new LinkedList();
-    var nodoActual = this.head.next;
-    var nodoPrevio = this.head;
-    while(link.size() > 0 ){
-      if(nodoActual.next === null) nuevaLista.add(link.remove());
-      nodoPrevio = nodoActual;
-      if(nodoActual.next) nodoActual = nodoActual.next;
+/*la funcion reverse(head)
+  si la cabeza es nula,
+    devolver nulo
+        pervio <- nulo 
+    mientras head.next no sea nulo
+      head.next = anterior
+      previo = head
+      head = valor anterior de head.next
+    head.next = anterior
+    retornar head*/  
+    var reversa = new LinkedList();
+    var value = this.remove();
+
+    while(value !== undefined){
+      reversa.add(value);
+      value = this.remove();
     }
-    return nuevaLista;
+    return reversa;
 }
 
 
@@ -243,24 +251,27 @@ var generateBST = function(array){
 
 
 var binarySearch = function (array, target) {
-
-function swap(array,j,i){
-  var inicio = 0
-  var final = array.length;
-  var posicion = -1;
-  var tomado = false;
+  var inicio = 0;
   var medio;
-}
-  while(tomado === false && inicio <= final){
-    medio = Math.floor((inicio+final)/2)
-    if(array[medio] === target){
-      tomado = true;
-      posicion = medio;
-    }else if(array[medio] > target) final = medio-1;
-    else inicio = medio+1;
-  }
-  return posicion;
-}
+  var final = array.length -1;
+  if (array.includes(target)) {
+    while(inicio <= final){
+      medio = Math.floor((inicio + final)/2);
+      if (array[medio] === target) {
+        return medio;
+      }
+      if (target < array[medio]) {
+        final =  target -1;
+        return final;
+      }
+      if(target > array[medio]){
+        inicio = target-1;
+        return inicio;
+      }
+    } 
+  }else return -1;
+} 
+  
 
 // EJERCICIO 9
 // Ordená un arreglo de números usando selection sort. El nuevo arreglo debe ser devuelto.
@@ -270,20 +281,14 @@ function swap(array,j,i){
 // Ejemplo:
 //     selectionSort([1, 6, 2, 5, 3, 4]) --> [1, 2, 3, 4, 5, 6]
 
-function swap(array,j,i){
-  if(j === i) return array;
-  var aux = array[j];
-  array[j] = array[i];
-  return array;
-}
 
 var selectionSort = function(array) {
-  for (let i = 0; i < array.length - 1; i++) {
-    var menor = i;
-    for(var j = i +1 ; i < array.length; i++);{
-      if( array[j] < array[menor]) menor =j;
+  for (let j = 0; j < array.length; ++j) {
+    let i = iMin = j;
+    for (++i; i < array.length; ++i) {
+      array[i] < array[iMin] && (iMin = i);
     }
-    swap(array,menor,i);
+    [array[j], array[iMin]] = [array[iMin], array[j]];
   }
   return array;
 }
